@@ -62,7 +62,7 @@ namespace Progect
     class V3DataList : V3Data
     {
 
-        public List<DataItem> ListData { get; }
+        List<DataItem> ListData { get; }
         public V3DataList(String str, DateTime dt) : base(str, dt)
         {
             ListData = new List<DataItem>();
@@ -162,7 +162,10 @@ namespace Progect
                 }
             }
             count = CountX * CountY;
-            maxDistance = Math.Sqrt((CountX - 1) * (CountX - 1) * StepX * StepX +
+            if (CountX == 0 || CountY == 0)
+                maxDistance = 0.0;
+            else
+                maxDistance = Math.Sqrt((CountX - 1) * (CountX - 1) * StepX * StepX +
                                     (CountY - 1) * (CountY - 1) * StepY * StepY);
         }
 
@@ -290,7 +293,7 @@ namespace Progect
             Console.WriteLine($"Count1:{first.Count} MaxDistance1:{first.MaxDistance}");
             Console.WriteLine($"Count2:{firstList.Count} MaxDistance2:{firstList.MaxDistance}");
             V3DataList second = new V3DataList("B", DateTime.UtcNow);
-            second.AddDefault(8, VectorMetods.foo2);
+            Console.WriteLine(second.AddDefault(8, VectorMetods.foo2));
             V3MainCollection collection = new V3MainCollection();
             collection.Add(first);
             collection.Add(second);
