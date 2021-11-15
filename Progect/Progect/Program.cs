@@ -17,7 +17,6 @@ namespace Progect
         {
             return new Vector2((float)x, (float)(y * y));
         }
-
     }
 
     class Program
@@ -39,6 +38,11 @@ namespace Progect
             for(int i = 0; i < collection.Count; i++)
             {
                 Console.WriteLine($"For {i} Count2:{collection[i].Count} MaxDistance2:{collection[i].MaxDistance}");
+            }
+            Console.WriteLine(first.GetEnumerator());
+            foreach(DataItem el in first)
+            {
+                Console.WriteLine(el);
             }
         }
     }

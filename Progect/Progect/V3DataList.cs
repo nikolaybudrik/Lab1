@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Progect
 {
-    class V3DataList : V3Data
+    class V3DataList : V3Data, IEnumerable<DataItem>
     {
 
         List<DataItem> ListData { get; }
@@ -62,7 +63,6 @@ namespace Progect
 
         public override double MaxDistance { get { return maxDistance; } }
 
-
         public override string ToString()
         {
             return GetType().ToString() + ' ' + base.ToString();
@@ -77,6 +77,9 @@ namespace Progect
             }
             return ret;
         }
-
+        public override IEnumerator<DataItem> GetEnumerator()
+        {
+            return ListData.GetEnumerator();
+        }
     }
 }

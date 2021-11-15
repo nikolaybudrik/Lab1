@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Progect
 {
-    abstract class V3Data
+    abstract class V3Data : IEnumerable<DataItem>
     {
         public String Str { get; set; }
         public DateTime Dt { get; set; }
@@ -27,10 +28,18 @@ namespace Progect
             return (Str + " Date:" + Dt.ToString() + " Count:" +
                 Count.ToString() + " MaxDistance:" + MaxDistance.ToString());
         }
+
         public String ToString(String format)
         {
             return (Str + " Date:" + Dt.ToString() + " Count:" +
                 Count.ToString() + " MaxDistance:" + MaxDistance.ToString(format));
+        }
+
+        public abstract IEnumerator<DataItem> GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }

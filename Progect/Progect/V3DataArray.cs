@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace Progect
 {
-    class V3DataArray : V3Data
+    class V3DataArray : V3Data, IEnumerable<DataItem>
     {
         public int CountX { get; }
         public int CountY { get; }
@@ -66,6 +66,15 @@ namespace Progect
                 }
             }
             return ret;
+        }
+
+        public override IEnumerator<DataItem> GetEnumerator()
+        {
+            for (int i = 0; i < CountX; i++)
+                for (int j = 0; j < CountY; j++)
+                {
+                    yield return new DataItem(i * StepX, j * StepY, Array[i, j]);
+                }
         }
 
         public static explicit operator V3DataList(V3DataArray DataArray)
