@@ -85,7 +85,6 @@ namespace Progect
         public bool SaveAsText(string filename)
         {
             CultureInfo cultureInfo = new CultureInfo("ru-RU");
-            cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
             FileStream fs = null;
             try
             {
@@ -120,7 +119,6 @@ namespace Progect
         static public bool LoadAsText(string filename, ref V3DataList v3)
         {
             CultureInfo cultureInfo = new CultureInfo("ru-RU");
-            cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
             FileStream fs = null;
             try
             {

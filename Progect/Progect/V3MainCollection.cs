@@ -19,12 +19,6 @@ namespace Progect
         public double Average
         {
             get
-            /*{
-                if (Count == 0)
-                    return double.NaN;
-                IEnumerable<double> tmp = from item in V3List select item.Average(x => Math.Sqrt(x.x * x.x + x.y * x.y));
-                return tmp.Average();
-            }*/
             {
                 if (Count == 0)
                     return double.NaN;
@@ -41,7 +35,7 @@ namespace Progect
             {
                 if (Count == 0)
                     return null;
-                return from item in V3List select item.Max(x => x.Vector.Length()) - item.Min(x => x.Vector.Length());
+                return from item in V3List select item.Count != 0 ? item.Max(x => x.Vector.Length()) - item.Min(x => x.Vector.Length()) : 0;
             }
         }
 
@@ -88,7 +82,7 @@ namespace Progect
             String ret = "";
             for (int i = 0; i < count - 1; i++)
             {
-                ret += V3List[i].ToLongString(format) + "\n";
+                ret += V3List[i].ToLongString(format) + "\n\n";
             }
             ret += V3List[count - 1].ToLongString(format);
             return ret;

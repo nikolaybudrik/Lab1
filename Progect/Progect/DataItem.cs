@@ -20,7 +20,6 @@ namespace Progect
         }
         public String ToLongString(String format)
         {
-            //return String.Format(format, x, y, Vector, Vector.Length());
             return "X:" + x.ToString(format) + " Y:" + y.ToString(format) + " <" + Vector.X.ToString(format)
                                 + "  " + Vector.Y.ToString(format) + "> Lengnt:" + Vector.Length().ToString(format);
         }
