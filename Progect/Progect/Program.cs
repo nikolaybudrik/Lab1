@@ -58,7 +58,7 @@ namespace Progect
             V3DataArray therd = new V3DataArray("therd", DateTime.UtcNow, 0, 5, 1, 1, VectorMetods.foo2);
             V3DataList list1 = new V3DataList("list1", DateTime.Now);
             list1.Add(new DataItem(1, 0, new Vector2(2, 2)));
-            list1.Add(new DataItem(3, 0, new Vector2(2, 2)));
+            list1.Add(new DataItem(3, 0, new Vector2(1, 1)));
             V3DataList list2 = new V3DataList("list2", DateTime.Now);
             V3MainCollection collection = new V3MainCollection();
             Console.WriteLine("Для Пустой Коллекции:");
