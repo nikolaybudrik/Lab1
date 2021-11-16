@@ -24,7 +24,7 @@ namespace Progect
     {
         static void Main(string[] args)
         {
-            V3DataArray first = new V3DataArray("A", DateTime.Now, 4, 4, 1, 1, VectorMetods.foo);
+            V3DataArray first = new V3DataArray("Str", DateTime.UtcNow, 4, 4, 1, 1, VectorMetods.foo);
             V3DataArray first2 = new V3DataArray("B", DateTime.Now, 2, 2, 2, 2, VectorMetods.foo);
             /*Console.WriteLine(first.ToLongString("e3"));
             V3DataList firstList = (V3DataList)first;
@@ -41,13 +41,17 @@ namespace Progect
             {
                 Console.WriteLine(el);
             }*/
-            foreach (IGrouping<double, DataItem> t in collection.Group_X)
+            /*foreach (IGrouping<double, DataItem> t in collection.Group_X)
             {
                 Console.WriteLine(t.Key);
                 foreach (var h in t)
                     Console.WriteLine(h);
                 Console.WriteLine();
-            }
+            }*/
+            first.SaveBinary("test");
+            first2.LoadBinary("test");
+            Console.WriteLine(first2);
+
         }
     }
 }

@@ -9,8 +9,8 @@ namespace Progect
 {
     abstract class V3Data : IEnumerable<DataItem>
     {
-        public String Str { get; set; }
-        public DateTime Dt { get; set; }
+        public String Str { get; protected set; }
+        public DateTime Dt { get; protected set; }
         protected int count;
         protected double maxDistance;
         public abstract int Count { get; }

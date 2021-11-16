@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,5 +82,20 @@ namespace Progect
         {
             return ListData.GetEnumerator();
         }
+        
+        /*public bool SaveAsText(string filename)
+        {
+            try
+            {
+                StreamWriter writer = new StreamWriter(filename);
+                writer.WriteLine(count);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }*/
     }
 }
