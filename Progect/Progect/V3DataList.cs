@@ -25,8 +25,6 @@ namespace Progect
                 return false;
             }
             ListData.Add(newItem);
-            //Vector256<double> X1 = Vector256<double>.BroadcastScalarToVector256(&x);
-            //Хотел через AVX но не робит.
             double X2 = newItem.x;
             double Y2 = newItem.y;
             double max = 0;
@@ -83,12 +81,25 @@ namespace Progect
             return ListData.GetEnumerator();
         }
         
-        /*public bool SaveAsText(string filename)
+        public bool SaveAsText(string filename)
         {
+            FileStream fs = null;
             try
             {
-                StreamWriter writer = new StreamWriter(filename);
+                fs = new FileStream(filename, FileMode.OpenOrCreate);
+                StreamWriter writer = new StreamWriter(fs);
+                writer.WriteLine(Str);
+                writer.WriteLine(Dt.ToString());
                 writer.WriteLine(count);
+                writer.WriteLine(MaxDistance);
+                for (int i = 0; i < count; i++)
+                {
+                    writer.WriteLine(ListData[i].x);
+                    writer.WriteLine(ListData[i].y);
+                    writer.WriteLine(ListData[i].Vector.X);
+                    writer.WriteLine(ListData[i].Vector.Y);
+                }
+                writer.Close();
                 return true;
             }
             catch(Exception ex)
@@ -96,6 +107,52 @@ namespace Progect
                 Console.WriteLine(ex.Message);
                 return false;
             }
-        }*/
+            finally
+            {
+                if (fs != null)
+                    fs.Close();
+            }
+        }
+
+        static public bool LoadAsText(string filename, ref V3DataList v3)
+        {
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(filename, FileMode.Open);
+                StreamReader reader = new StreamReader(fs);
+                String str = reader.ReadLine();
+                DateTime dt = Convert.ToDateTime(reader.ReadLine());
+                if (v3 == null)
+                    v3 = new V3DataList(str, dt);
+                else
+                {
+                    v3.Str = str;
+                    v3.Dt = dt;
+                }
+                v3.count = Convert.ToInt32(reader.ReadLine());
+                v3.maxDistance = Convert.ToDouble(reader.ReadLine());
+                for (int i = 0; i < v3.count; i++)
+                {
+                    double tmpx = Convert.ToDouble(reader.ReadLine());
+                    double tmpy = Convert.ToDouble(reader.ReadLine());
+                    float Vx = Convert.ToSingle(reader.ReadLine());
+                    float Vy = Convert.ToSingle(reader.ReadLine());
+                    v3.ListData.Add(new DataItem(tmpx, tmpy, new System.Numerics.Vector2(Vx, Vy)));
+                }
+                reader.Close();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            finally
+            {
+                if (fs != null)
+                    fs.Close();
+            }
+        }
     }
 }

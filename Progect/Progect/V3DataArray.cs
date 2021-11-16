@@ -93,9 +93,13 @@ namespace Progect
 
         public bool SaveBinary(string filename)
         {
+            FileStream fs = null;
             try
             {
-                BinaryWriter writer = new BinaryWriter(new FileStream(filename, FileMode.OpenOrCreate));
+                fs = new FileStream(filename, FileMode.OpenOrCreate);
+                BinaryWriter writer = new BinaryWriter(fs);
+                writer.Write(Str);
+                writer.Write(Dt.ToString());
                 writer.Write(CountX);
                 writer.Write(CountY);
                 writer.Write(StepX);
@@ -108,14 +112,8 @@ namespace Progect
                         writer.Write(Array[i, j].Y);
                     }
                 }
-                writer.Write(Dt.Year);
-                writer.Write(Dt.Month);
-                writer.Write(Dt.Day);
-                writer.Write(Dt.Hour);
-                writer.Write(Dt.Minute);
-                writer.Write(Dt.Second);
-                writer.Write(Dt.Millisecond);
-                writer.Write(Str);
+                writer.Write(maxDistance);
+                writer.Write(count);
                 writer.Close();
                 return true;
             }
@@ -124,43 +122,58 @@ namespace Progect
                 Console.WriteLine(ex.Message);
                 return false;
             }
+            finally
+            {
+                if (fs != null)
+                    fs.Close();
+            }
         }
 
-        public bool LoadBinary(string filename)
+        static public bool LoadBinary(string filename, ref V3DataArray v3)
         {
+            FileStream fs = null;
             try
             {
-                BinaryReader reader = new BinaryReader(new FileStream(filename, FileMode.Open));
-                CountX = reader.ReadInt32();
-                CountY = reader.ReadInt32();
-                StepX = reader.ReadDouble();
-                StepY = reader.ReadDouble();
-                Array = new Vector2[CountX, CountY];
-                for (int i = 0; i < CountX; i++)
+                
+                fs = new FileStream(filename, FileMode.Open);
+                BinaryReader reader = new BinaryReader(fs);
+                String str = reader.ReadString();
+                DateTime dt = Convert.ToDateTime(reader.ReadString());
+                if (v3 == null)
+                    v3 = new V3DataArray(str, dt);
+                else
                 {
-                    for (int j = 0; j < CountY; j++)
+                    v3.Str = str;
+                    v3.Dt = dt;
+                }
+                v3.CountX = reader.ReadInt32();
+                v3.CountY = reader.ReadInt32();
+                v3.StepX = reader.ReadDouble();
+                v3.StepY = reader.ReadDouble();
+                v3.Array = new Vector2[v3.CountX, v3.CountY];
+                for (int i = 0; i < v3.CountX; i++)
+                {
+                    for (int j = 0; j < v3.CountY; j++)
                     {
                         float tmpX = reader.ReadSingle();
                         float tmpY = reader.ReadSingle();
-                        Array[i, j] = new Vector2(tmpX, tmpY);
+                        v3.Array[i, j] = new Vector2(tmpX, tmpY);
                     }
                 }
-                Dt = new DateTime(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(),
-                    reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-                Str = reader.ReadString();
+                v3.maxDistance = reader.ReadDouble();
+                v3.count = reader.ReadInt32();
                 reader.Close();
-                count = CountX * CountY;
-                if (CountX == 0 || CountY == 0)
-                    maxDistance = 0.0;
-                else
-                    maxDistance = Math.Sqrt((CountX - 1) * (CountX - 1) * StepX * StepX +
-                                        (CountY - 1) * (CountY - 1) * StepY * StepY);
                 return true;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
+            }
+            finally
+            {
+                if (fs != null)
+                    fs.Close();
             }
         }
     }

@@ -22,36 +22,69 @@ namespace Progect
 
     class Program
     {
+        static void ChekFile()
+        {
+            V3DataArray first = new V3DataArray("Str", DateTime.UtcNow, 4, 3, 1, 1, VectorMetods.foo);
+            first.SaveBinary("test");
+            V3DataArray second = null;
+            V3DataArray.LoadBinary("test", ref second);
+
+            Console.WriteLine(first.ToLongString("F3"));
+            Console.WriteLine(second.ToLongString("F3"));
+            Console.WriteLine();
+
+            V3DataList list1 = new V3DataList("abc", DateTime.Now);
+            list1.AddDefault(6, VectorMetods.foo);
+            list1.SaveAsText("test1");
+            V3DataList list2 = null;
+            V3DataList.LoadAsText("test1", ref list2);
+
+            Console.WriteLine(list1.ToLongString("F3"));
+            Console.WriteLine(list2.ToLongString("F3"));
+            Console.WriteLine();
+        }
+
+        static void ChekLinQ()
+        {
+            V3DataArray first = new V3DataArray("Str", DateTime.UtcNow, 4, 3, 1, 1, VectorMetods.foo);
+            V3DataArray second = new V3DataArray("Str", DateTime.UtcNow, 2, 5, 1, 1, VectorMetods.foo2);
+            V3DataArray therd = new V3DataArray("Str", DateTime.UtcNow, 0, 5, 1, 1, VectorMetods.foo2);
+            V3DataList list1 = new V3DataList("abc", DateTime.Now);
+            list1.AddDefault(6, VectorMetods.foo);
+            V3DataList list2 = new V3DataList("abc", DateTime.Now);
+            V3MainCollection collection = new V3MainCollection();
+            Console.WriteLine("Для Пустой");
+            if (collection.Diferens == null)
+                Console.WriteLine("Null");
+            Console.WriteLine(collection.Average);
+            collection.Add(first);
+            collection.Add(second);
+            collection.Add(therd);
+            collection.Add(list1);
+            collection.Add(list2);
+            Console.WriteLine("Для Заполненой");
+            Console.WriteLine(collection.Average);
+            Console.WriteLine();
+            foreach(float item in collection.Diferens)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+            foreach (IGrouping<double, DataItem> g in collection.Group_X)
+            {
+                Console.WriteLine(g.Key);
+                foreach(DataItem item in g)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.WriteLine();
+            }
+
+        }
+
         static void Main(string[] args)
         {
-            V3DataArray first = new V3DataArray("Str", DateTime.UtcNow, 4, 4, 1, 1, VectorMetods.foo);
-            V3DataArray first2 = new V3DataArray("B", DateTime.Now, 2, 2, 2, 2, VectorMetods.foo);
-            /*Console.WriteLine(first.ToLongString("e3"));
-            V3DataList firstList = (V3DataList)first;
-            Console.WriteLine(firstList.ToLongString("e3"));
-            Console.WriteLine($"Count1:{first.Count} MaxDistance1:{first.MaxDistance}");
-            Console.WriteLine($"Count2:{firstList.Count} MaxDistance2:{firstList.MaxDistance}");
-            V3DataList second = new V3DataList("B", DateTime.UtcNow);
-            Console.WriteLine(second.AddDefault(8, VectorMetods.foo2));*/
-            V3MainCollection collection = new V3MainCollection();
-            collection.Add(first);
-            collection.Add(first2);
-            /*Console.WriteLine(first.GetEnumerator());
-            foreach(DataItem el in first)
-            {
-                Console.WriteLine(el);
-            }*/
-            /*foreach (IGrouping<double, DataItem> t in collection.Group_X)
-            {
-                Console.WriteLine(t.Key);
-                foreach (var h in t)
-                    Console.WriteLine(h);
-                Console.WriteLine();
-            }*/
-            first.SaveBinary("test");
-            first2.LoadBinary("test");
-            Console.WriteLine(first2);
-
+            ChekLinQ();
         }
     }
 }
