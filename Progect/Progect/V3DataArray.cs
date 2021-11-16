@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using System.IO;
+using System.Globalization;
 
 namespace Progect
 {
@@ -134,7 +135,6 @@ namespace Progect
             FileStream fs = null;
             try
             {
-                
                 fs = new FileStream(filename, FileMode.Open);
                 BinaryReader reader = new BinaryReader(fs);
                 String str = reader.ReadString();
