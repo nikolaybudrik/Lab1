@@ -8,11 +8,52 @@ namespace Progect
 {
     class V3MainCollection
     {
+
         private List<V3Data> V3List;
         private int count;
         public int Count
         {
             get { return count; }
+        }
+
+        public double Average
+        {
+            get
+            /*{
+                if (Count == 0)
+                    return double.NaN;
+                IEnumerable<double> tmp = from item in V3List select item.Average(x => Math.Sqrt(x.x * x.x + x.y * x.y));
+                return tmp.Average();
+            }*/
+            {
+                if (Count == 0)
+                    return double.NaN;
+                IEnumerable<double> tmp1 = from item in V3List select item.Sum(x => Math.Sqrt(x.x * x.x + x.y * x.y));
+                double sum = tmp1.Sum();
+                IEnumerable<int> tmp2 = from item in V3List select item.Count;
+                int count = tmp2.Sum();
+                return sum / count;
+            }
+        }
+
+        public IEnumerable <float> Diferens {
+            get
+            {
+                if (Count == 0)
+                    return null;
+                return from item in V3List select item.Max(x => x.Vector.Length()) - item.Min(x => x.Vector.Length());
+            }
+        }
+
+        public IEnumerable<IGrouping<double, DataItem>> Group_X
+        {
+            get
+            {
+                if (Count == 0)
+                    return null;
+                IEnumerable<DataItem> AllData = V3List.Aggregate<IEnumerable<DataItem>>((tmp, x) => tmp.Concat(x));
+                return from item in AllData group item by item.x;
+            }
         }
 
         public V3Data this[int i]
